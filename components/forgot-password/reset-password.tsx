@@ -1,18 +1,19 @@
 'use client';
 
-import Link from 'next/link';
 import '../../app/globals.css';
-import { useState } from 'react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/login/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/login/card';
 import { Input } from '@/components/login/input';
 import { Label } from '@/components/login/label';
+import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { signUpAction } from '@/app/actions';
-import { SubmitButton } from '../submit-button';
 
-export function SignupForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export const ResetPasswordForm: React.FC = ({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'>) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
@@ -20,25 +21,16 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Sign Up</CardTitle>
-          <CardDescription>Create a new account to get started</CardDescription>
+          <CardTitle className="text-2xl">Reset Password</CardTitle>
+          <CardDescription>Enter your new password below</CardDescription>
         </CardHeader>
         <CardContent>
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" name="email" placeholder="m@example.com" required />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">New Password</Label>
                 <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    name="password"
-                    required
-                  />
+                  <Input id="password" type={showPassword ? 'text' : 'password'} required />
                   <Button
                     type="button"
                     variant="ghost"
@@ -54,12 +46,11 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
                 </div>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">Confirm New Password</Label>
                 <div className="relative">
                   <Input
                     id="confirmPassword"
                     type={showConfirmPassword ? 'text' : 'password'}
-                    name="confirmPassword"
                     required
                   />
                   <Button
@@ -80,26 +71,16 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
                   </Button>
                 </div>
               </div>
-              <SubmitButton
-                pendingText="Signing Up..."
-                formAction={signUpAction}
-                className="w-full"
-              >
-                Sign Up
-              </SubmitButton>
+              <Button type="submit" className="w-full">
+                Reset Password
+              </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              Already have an account?{' '}
-              <Link
-                href="/login"
-                className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-              >
-                <u>Log In</u>
-              </Link>
+              Remembered your password? <Link href="/login">Login</Link>
             </div>
           </form>
         </CardContent>
       </Card>
     </div>
   );
-}
+};

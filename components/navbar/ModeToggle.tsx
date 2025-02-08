@@ -1,34 +1,59 @@
 'use client';
 
-import * as React from 'react';
-import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
-
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Laptop, Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
-export function ModeToggle() {
-  const { setTheme } = useTheme();
+const ModeToggle = () => {
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  const ICON_SIZE = 24;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
+        <Button variant="ghost" size={'sm'}>
+          {theme === 'light' ? (
+            <Sun key="light" size={ICON_SIZE} className={'text-muted-foreground'} />
+          ) : theme === 'dark' ? (
+            <Moon key="dark" size={ICON_SIZE} className={'text-muted-foreground'} />
+          ) : (
+            <Laptop key="system" size={ICON_SIZE} className={'text-muted-foreground'} />
+          )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
+      <DropdownMenuContent className="w-content" align="start">
+        <DropdownMenuRadioGroup value={theme} onValueChange={(e) => setTheme(e)}>
+          <DropdownMenuRadioItem className="flex gap-2" value="light">
+            <Sun size={ICON_SIZE} className="text-muted-foreground" /> <span>Light</span>
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem className="flex gap-2" value="dark">
+            <Moon size={ICON_SIZE} className="text-muted-foreground" /> <span>Dark</span>
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem className="flex gap-2" value="system">
+            <Laptop size={ICON_SIZE} className="text-muted-foreground" /> <span>System</span>
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
+
+export { ModeToggle };

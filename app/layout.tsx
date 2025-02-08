@@ -2,6 +2,8 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { ReactNode } from 'react';
 import { Inter } from 'next/font/google';
 import NavBar from '@/components/navbar/NavBar';
+import { ToastProvider } from '@/hooks/use-toast';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,8 +24,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <NavBar />
-          {children}
+          <ToastProvider>
+            <NavBar />
+            {children}
+            <Toaster />
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>
