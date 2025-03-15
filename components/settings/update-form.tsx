@@ -6,6 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { createClient } from '@/utils/supabase/client';
+//import { User } from '@/types/user';
+import { Profile } from '@/types/profile';
 
 interface ProfileFormProps extends React.ComponentPropsWithoutRef<'div'> {
   initialProfile?: {
@@ -55,8 +58,18 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
 
   const [isDirty, setIsDirty] = useState(false);
   const [isFormEmpty, setIsFormEmpty] = useState(true);
+  const [user, setUser] = useState<Profile | null>();
+
+  const fetchUser = async () => {
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.getUser();
+
+    const dbUser = await supabase.from('profiles').select('*').eq('id', data.user?.id);
+    setUser(dbUser.data?.at(0));
+  };
 
   useEffect(() => {
+    fetchUser();
     const isChanged = Object.keys(profile).some(
       (key) =>
         profile[key as keyof typeof profile] !== initialProfile?.[key as keyof typeof profile]
@@ -72,10 +85,12 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     console.log('Updated profile:', profile);
-    setIsDirty(false);
+    //need to "upsert" data (allows you to insert a new row if it does not exist, or update it if it does.)
+    for (const key in profile) setIsDirty(false);
   };
 
   return (

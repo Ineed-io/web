@@ -29,6 +29,7 @@ const NavBar = () => {
       const fetchUser = async () => {
         const supabase = await createClient();
         const { data, error } = await supabase.auth.getUser();
+        console.log(data.user?.id);
         if (error) {
           redirect('/');
         }

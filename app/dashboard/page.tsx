@@ -39,6 +39,7 @@ const DashboardPage: React.FC = () => {
         .from('internships')
         .select('*')
         .eq('user_id', user.data.user?.id);
+
       if (error) {
         console.error('Error fetching data:', error);
       } else {
