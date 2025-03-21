@@ -27,6 +27,13 @@ const teamMembers: TeamMember[] = [
     profilePic: '/images/team/praveshk.jpg',
   },
   {
+    name: 'Kedar Bulusu',
+    role: 'Developer',
+    majorMinor: 'Add your major and minor here',
+    imageAlt: 'Ali Avatar',
+    profilePic: '/images/logo.png',
+  },
+  {
     name: 'Ali Monthana',
     role: 'Developer',
     majorMinor: 'Add your major and minor here',

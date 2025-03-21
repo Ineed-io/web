@@ -1,7 +1,7 @@
 'use client';
 
 import { DashboardHeader as ProfileHeader } from '@/components/dashboard/header';
-import { DashboardMetrics } from '@/components/dashboard/metrics';
+import { ProfileMetrics } from '@/components/profile/metrics';
 /* import { SubmissionsCalendar } from '@/components/dashboard/submissions-calendar';
 import { ActivityChart } from '@/components/dashboard/activity-chart'; */
 // import { TimePickerDemo } from '@/components/dashboard/time-picker';
@@ -12,6 +12,7 @@ import { User } from '@/types/user';
 import { redirect } from 'next/navigation';
 import { Badges } from '@/components/dashboard/badges';
 import { Application } from '@/types/application';
+
 
 const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -56,7 +57,11 @@ const ProfilePage: React.FC = () => {
   USE THE EXPLORE PAGE CARDS (they are pre-styled already) to display stats
   REPLACE THE DASHBOARD METRICS WITH A NEW COMPONENT CALLED: ProfileMetrics, and create that in the components/profile folder
   Copy paste the cards from the app/explore/page.tsx page, and fetch and calculate all the statistics from the database 
-  */
+  */ 
+
+
+
+ 
   return (
     <div className="ineed.io-profile.page min-h-screen bg-background p-6">
       {/* FIXME: There is a bug here, when the user changes their first name, it still uses the
@@ -64,7 +69,7 @@ const ProfilePage: React.FC = () => {
       */}
       <ProfileHeader user={user} />
       <div className="">
-        <DashboardMetrics applications={applications} />
+        <ProfileMetrics applications={applications} />
         {/* <ActivityChart />
         <SubmissionsCalendar /> */}
         <Badges />

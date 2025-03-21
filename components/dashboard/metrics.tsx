@@ -1,4 +1,4 @@
-import { Users2, UserPlus, TrendingUp } from 'lucide-react';
+import { NotebookPen, CircleCheckBig, X } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Application } from '@/types/application';
 
@@ -78,20 +78,20 @@ export function DashboardMetrics({ applications = [] }: { applications: Applicat
       title: 'Active Applications',
       value: pendingCount + '/' + totalCount,
       trend: Math.round((pendingCount / totalCount) * 100 * 10) / 10,
-      icon: Users2,
+      icon: NotebookPen,
       total: applications.length,
     },
     {
       title: 'Total Applications this Month',
       value: recentApplications.length,
       trend: applicationPercentIncrease,
-      icon: UserPlus,
+      icon: CircleCheckBig,
     },
     {
       title: 'Rejection Rate',
       value: Math.round(currRejectionRate * 100 * 10) / 10 + '%',
       trend: ratePercentChange,
-      icon: TrendingUp,
+      icon: X,
     },
   ];
 
