@@ -1,5 +1,11 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
+import { useParams, redirect } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
 import '../../globals.css';
+
+// DO NOT WORK ON THIS YET!!! --- Need to update database columns
 
 /* 
 TODO (Large TODO): This is going to be the profile page to view other users.
@@ -15,6 +21,17 @@ The "123" portion is going to be a users UNIQUE ID. Essentially, this is what's 
 */
 
 const UserProfilePage: React.FC = () => {
+  const params = useParams();
+  const { id } = params;
+  useEffect(() => {
+    const fetchData = async () => {
+      const client = createClient();
+      const user = await client.auth.getUser();
+      if (user.data.user?.id === id) {
+        redirect('/profile');
+      }
+    };
+  }, []);
   return (
     <div className="ineed.io-profile.page min-h-screen bg-background p-6">
       User profile page (to be implemented)

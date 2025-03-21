@@ -13,6 +13,7 @@ set to false initially until they unlock it, this causes way too much redudancy 
 Once that is figured out, implement badge functionality here. Remember, all badges should be set to false initially,
 and once they've unlocked a badge (once "something" is set to true), then it should be unlocked.
 */
+
 const badgeImages: { [key: string]: string } = {
   'Applied to any internship(s)': '/images/new.png',
   'Applied to 10+ internships': '/images/10plus.png',

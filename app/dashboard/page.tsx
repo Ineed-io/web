@@ -11,6 +11,7 @@ import React, { useState, useEffect } from 'react';
 import { User } from '@/types/user';
 import { redirect } from 'next/navigation';
 import { Application } from '@/types/application';
+import { useRouter } from 'next/navigation';
 
 interface ProfileData {
   username: string;
@@ -21,6 +22,25 @@ const DashboardPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [applications, setApplications] = useState<Application[]>([]);
   const [profileUser, setProfileUser] = useState<ProfileData | null>(null);
+  const router = useRouter();
+
+  const refreshApps = async () => {
+    router.refresh();
+  };
+
+  const fetchInternships = async () => {
+    const client = createClient();
+    const authUser = await client.auth.getUser();
+    const { data, error } = await client
+      .from('internships')
+      .select('*')
+      .eq('user_id', authUser.data.user?.id);
+    if (error) {
+      console.error('Error fetching data:', error);
+    } else {
+      setApplications(data);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -37,19 +57,6 @@ const DashboardPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const fetchInternships = async () => {
-      const client = createClient();
-      const authUser = await client.auth.getUser();
-      const { data, error } = await client
-        .from('internships')
-        .select('*')
-        .eq('user_id', authUser.data.user?.id);
-      if (error) {
-        console.error('Error fetching data:', error);
-      } else {
-        setApplications(data);
-      }
-    };
     fetchInternships();
   }, []);
 
@@ -78,7 +85,11 @@ const DashboardPage: React.FC = () => {
       <div className="">
         <DashboardMetrics applications={applications} />
         <NewApplicationForm />
-        <ApplicationsTable applications={applications} setApplications={setApplications} />
+        <ApplicationsTable
+          applications={applications}
+          setApplications={setApplications}
+          refreshApplications={refreshApps}
+        />
       </div>
     </div>
   );

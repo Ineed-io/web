@@ -44,8 +44,10 @@ This section will cover how to actually submit changes that you made (i.e new fe
 - Run the following **before you start coding:** `$ git checkout -b <feature you are going to add>`
 - I.e, `$ git checkout -b addingLoginForm`
 
-2. Now, go ahead and code whatever you want, usually you will need to look at Trello to see what needs to be done, and what has already been done!
-3. Once finished, run the following commands in order:
+2. Run `$ yarn install` to install all the latest packages
+
+3. Now, go ahead and code whatever you want, usually you will need to look at Trello to see what needs to be done, and what has already been done!
+4. Once finished, run the following commands in order:
 
 - Add changes: `$ git add .`
 - Commit changes with a message: `$ git commit -m "feat/chore/fix: some change"`

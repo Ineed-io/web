@@ -25,22 +25,26 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Application } from '@/types/application';
+import { createClient } from '@/utils/supabase/client';
+import { mkConfig, generateCsv, asString } from 'export-to-csv';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
-import { createClient } from '@/utils/supabase/client';
-import { mkConfig, generateCsv, asString } from 'export-to-csv'; // Updated imports
+import { StatusDialog } from './statusdialog'; // <--- Import the new component
+import { useRouter } from 'next/navigation';
 
 dayjs.extend(advancedFormat);
 
 export function ApplicationsTable({
   applications,
   setApplications,
+  refreshApplications,
 }: {
   applications: Application[];
   setApplications: React.Dispatch<React.SetStateAction<Application[]>>;
+  refreshApplications: () => Promise<void>;
 }) {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-
   const filteredApplications = applications.filter((app) =>
     app.company_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -48,12 +52,10 @@ export function ApplicationsTable({
   const handleDelete = async (id: string) => {
     const supabase = await createClient();
     const { error } = await supabase.from('internships').delete().eq('id', id);
-
     if (error) {
       console.error('Error deleting application:', error.message);
       return;
     }
-
     setApplications(applications.filter((app) => `${app.id}` !== id));
   };
 
@@ -86,17 +88,37 @@ export function ApplicationsTable({
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
   };
-  //TODO: Add functionality such that users can update the status of an internship!
-  //Check out https://ui.shadcn.com/docs/components/dialog for the popup
-  //(i.e, they can click on the status, and it should bring a popup where they can change the status.)
-  /*
-  Recommended steps:
-  1. console.log() the status each time you change it, and see if its actually changing
-  2. query the database (remember to only update the internship that they are changing the status of, use the unique id)
-  3. verify changes are being made
-  */
+
+  async function updateStatusInSupabase(id: number, newStatus: string) {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('internships')
+      .update({ status: newStatus })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating status:', error.message);
+      return null;
+    }
+    return data;
+  }
+
+  const handleUpdateStatus = async (appId: number, newStatus: string) => {
+    console.log('About to update status:', newStatus);
+    const result = await updateStatusInSupabase(appId, newStatus);
+    if (result) {
+      // Update local state so the UI changes immediately
+      setApplications((prevApps) =>
+        prevApps.map((app) => (app.id === appId ? { ...app, status: newStatus } : app))
+      );
+      await refreshApplications();
+      router.refresh();
+    }
+  };
+
   return (
     <Card className="p-6">
+      {/* Search and Export UI */}
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-3xl font-semibold">Recent Applications</h2>
         <div className="flex items-center gap-4">
@@ -115,6 +137,7 @@ export function ApplicationsTable({
           </div>
         </div>
       </div>
+
       <Table id="applications-table">
         <TableHeader>
           <TableRow>
@@ -137,16 +160,6 @@ export function ApplicationsTable({
                   type="checkbox"
                   onChange={(e) => {
                     if (e.target.checked) {
-                      /* 
-                      TODO: this will log everytime the checkbox is checked on
-                      Make it such that a user can check multiple (or just even 1)
-                      checkboxes, and create a delete button (next to the export to csv button)
-                      that allows them to delete checkboxes that are currently checked.
-                      you will need to store which checkboxes are currently checked somewhere,
-                      and then create a function called handleDelete, which the delete button will
-                      trigger, and use the stored checkboxes to delete those checkBoxes only.
-                      If they check it off, then remove it from the place where you are storing them.
-                      */
                       console.log(`Checked internship id: ${app.id}`);
                     }
                   }}
@@ -161,17 +174,7 @@ export function ApplicationsTable({
               </TableCell>
               <TableCell>{app.role}</TableCell>
               <TableCell>
-                <span
-                  className={`rounded-full px-3 py-1 text-sm ${
-                    app.status === 'Accepted'
-                      ? 'bg-[#e8faf3] text-[#00ac4f]'
-                      : app.status === 'Rejected'
-                        ? 'bg-red-100 text-red-600'
-                        : 'bg-yellow-100 text-yellow-600'
-                  }`}
-                >
-                  {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
-                </span>
+                <StatusDialog app={app} handleUpdateStatus={handleUpdateStatus} />
               </TableCell>
               <TableCell>
                 <AlertDialog>
