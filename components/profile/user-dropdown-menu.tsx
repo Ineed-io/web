@@ -30,7 +30,7 @@ export function UserDropdownMenu({ avatar }: DropdownMenuProps) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Link href={'/dashboard'}>Dashboard</Link>
+            <Link href={'/profile'}>Profile</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link href={'/settings'}>Settings</Link>
