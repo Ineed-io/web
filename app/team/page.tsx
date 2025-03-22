@@ -108,11 +108,13 @@ const teamMembers: TeamMember[] = [
     profilePic: '/images/logo.png',
   },
   {
-    name: 'Tyler Arcinaga',
+    name: 'Tyler Arciniaga',
     role: 'Developer',
-    majorMinor: 'Add your major and minor here',
+    majorMinor: 'Computer Engineering',
     imageAlt: 'Tyler Avatar',
     profilePic: '/images/logo.png',
+    linkedin: 'https://www.linkedin.com/in/tyler-arciniaga-5786a82a3/',
+    github: 'https://github.com/Tyler-Arciniaga',
   },
   {
     name: 'Vaman Rajagopal',
@@ -136,7 +138,7 @@ const TeamMember = ({
   <div className="items-center rounded-lg shadow dark:border-gray-700 sm:flex">
     <a href="#">
       <Image
-        className="w-[150px] h-[150px] rounded-full object-cover"
+        className="h-[150px] w-[150px] rounded-full object-cover"
         src={profilePic ? profilePic : ''} // Placeholder for now
         alt={imageAlt}
         width={150}

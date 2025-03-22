@@ -1,12 +1,14 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
-export const createClient = async () => {
+export const createClient = async (deleteAccount: '' | 'deleteAccount' = '') => {
   const cookieStore = await cookies();
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    deleteAccount === 'deleteAccount'
+      ? process.env.NEXT_PUBLIC_SUPABASE_SERVICE_KEY!
+      : process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {

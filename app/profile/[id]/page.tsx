@@ -23,14 +23,15 @@ The "123" portion is going to be a users UNIQUE ID. Essentially, this is what's 
 const UserProfilePage: React.FC = () => {
   const params = useParams();
   const { id } = params;
+  const fetchData = async () => {
+    const client = createClient();
+    const user = await client.auth.getUser();
+    if (user.data.user?.id === id) {
+      redirect('/profile');
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      const client = createClient();
-      const user = await client.auth.getUser();
-      if (user.data.user?.id === id) {
-        redirect('/profile');
-      }
-    };
+    fetchData();
   }, []);
   return (
     <div className="ineed.io-profile.page min-h-screen bg-background p-6">

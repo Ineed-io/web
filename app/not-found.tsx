@@ -1,7 +1,7 @@
 import './globals.css';
 import React from 'react';
-import Link from "next/link"
-import { Home } from "lucide-react"
+import Link from 'next/link';
+import { Home } from 'lucide-react';
 
 // TODO: Create the not found page, a page that will be displayed
 // when a user tries to access a page that doesn't exist
@@ -14,7 +14,8 @@ const NotFound: React.FC = () => {
         <h1 className="text-9xl font-extrabold tracking-tight text-primary">404</h1>
         <h2 className="text-3xl font-bold tracking-tight">Page not found</h2>
         <p className="text-muted-foreground">
-          The page might have been removed, had its name changed, or is temporarily unavailable. Head back home to keep exploring!
+          The page might have been removed, had its name changed, or is temporarily unavailable.
+          Head back home to keep exploring!
         </p>
         <div className="pt-4">
           <Link
