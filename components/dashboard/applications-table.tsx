@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { X, Search, Download } from 'lucide-react';
+import { ScrollArea } from "@/components/ui/scroll-area"
+
 import {
   Table,
   TableBody,
@@ -30,7 +32,7 @@ import { Application } from '@/types/application';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import { createClient } from '@/utils/supabase/client';
-import {} from 'export-to-csv';
+import { } from 'export-to-csv';
 import { mkConfig, generateCsv, asString } from 'export-to-csv'; // Updated imports
 //import { useRouter } from 'next/router';
 import { useRouter } from 'next/navigation'; //believe this should be next/navigation not next/router
@@ -170,6 +172,11 @@ export function ApplicationsTable({
     }
   };
 
+  // TODO
+  // Create button to import csv file with application data
+  // Probably show user a standard format to import csv as
+  // Read the file and populate database with data
+
   return (
     <Card className="flex flex-col gap-6 p-6 shadow-md shadow-primary">
       {/* Search and Export UI */}
@@ -251,16 +258,6 @@ export function ApplicationsTable({
               </TableCell>
               <TableCell>{app.role}</TableCell>
               <TableCell>
-                <span
-                  className={`rounded-full px-3 py-1 text-sm ${app.status === 'Accepted'
-                    ? 'bg-[#e8faf3] text-[#00ac4f]'
-                    : app.status === 'Rejected'
-                      ? 'bg-red-100 text-red-600'
-                      : 'bg-yellow-100 text-yellow-600'
-                    }`}
-                >
-                  {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
-                </span>
                 <StatusDialog app={app} handleUpdateStatus={handleUpdateStatus} />
               </TableCell>
               <TableCell>
@@ -330,9 +327,13 @@ export function ApplicationsTable({
                     <AlertDialogTitle>Delete Application</AlertDialogTitle>
                     <AlertDialogDescription>
                       Are you sure you want to delete the following applications:
-                      {checkedApplications.map((app) => (
-                        <li key={app.id}>{app.company_name}</li>
-                      ))}
+                      <ScrollArea className="h-96 w-full rounded-md border p-4">
+                      <ul>
+                        {checkedApplications.map((app) => (
+                          <li key={app.id}>{app.company_name}</li>
+                        ))}
+                        </ul>
+                      </ScrollArea>
                       This action cannot be undone.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
