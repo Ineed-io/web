@@ -83,6 +83,9 @@ const ProfilePage: React.FC = () => {
 
   /*
   TODO #12: If a user has a bio in their profiles table, display it under their avatar
+
+  //need new useEffect for the bio
+  //we have to make a bio component to display the bio
   */
 
   return (
@@ -92,21 +95,23 @@ const ProfilePage: React.FC = () => {
       variants={fadeInVariants}
       transition={{ duration: 1, ease: 'easeInOut' }}
     >
-      <div className="ineed.io-profile.page min-h-screen bg-background p-6">
+      <div className="ineed.io-profile.page min-h-screen p-6">
         <div className="flex flex-col items-center">
           <ProfileHeader user={user} />
           <div className="mb-1"></div>
           <div className="group relative">
-            <Avatar className="h-60 w-60 shadow-lg shadow-teal-500/50">
+            <Avatar className="h-60 w-60 shadow-md shadow-primary mb-8">
+
               <AvatarImage src={avatarImage || ''} />
               <AvatarFallback>{firstName ? firstName.charAt(0) : 'U'}</AvatarFallback>
             </Avatar>
           </div>
         </div>
-        <div className="shadow-lg shadow-teal-900/10">
+        <div className="shadow-lg shadow-900/10">
           <div>
-            <ProfileMetrics applications={applications} />
-            <Badges />
+            <ProfileMetrics applications={applications}/>
+            <div className = "mb-8"> </div>
+            <Badges/>
           </div>
         </div>
       </div>

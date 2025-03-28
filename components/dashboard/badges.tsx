@@ -54,7 +54,7 @@ const badgeImages: { [key: string]: string } = {
 
 export function Badges() {
   return (
-    <Card className="p-6">
+    <Card className="p-6 shadow-md shadow-primary">
       <h2 className="mb-4 text-xl font-semibold">Achievement Badges</h2>
       <div className="flex flex-wrap gap-5">
         <TooltipProvider>
