@@ -42,7 +42,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Anthony Nguyen',
     role: 'Developer',
-    majorMinor: 'Add your major and minor here',
+    majorMinor: 'Computer Science',
     imageAlt: 'Anthony Avatar',
     profilePic: '/images/logo.png',
   },

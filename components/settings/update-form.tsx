@@ -22,6 +22,9 @@ interface ProfileFormProps extends React.ComponentPropsWithoutRef<'div'> {
     gradYear: string;
     major: string;
     bio: string;
+    linkedin: string;
+    github: string;
+    portfolio: string;
   };
 }
 
@@ -41,6 +44,9 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
       gradYear: '',
       major: '',
       bio: '',
+      linkedin: '',
+      github: '',
+      portfolio: '',
     }
   );
 
@@ -213,6 +219,36 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                 placeholder="Hello, I'm John Doe!"
               />
             </div>
+            <div className="grid gap-2">
+              <Label htmlFor="linkedin">LinkedIn</Label>
+              <Input
+                id="linkedin"
+                name="linkedin"
+                value={profile.linkedin}
+                onChange={handleInputChange}
+                placeholder="https://linkedin.com/in/your-profile"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="github">GitHub</Label>
+              <Input
+                id="github"
+                name="github"
+                value={profile.github}
+                onChange={handleInputChange}
+                placeholder="https://github.com/yourusername"
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="portfolio">Portfolio</Label>
+                <Input
+                  id="portfolio"
+                  name="portfolio"
+                  value={profile.portfolio}
+                  onChange={handleInputChange}
+                  placeholder="https://your-portfolio.com"
+                  />
+                </div>
             <Button type="submit" className="w-full" disabled={!isDirty || isFormEmpty}>
               Save Changes
             </Button>
