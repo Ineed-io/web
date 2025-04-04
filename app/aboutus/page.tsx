@@ -105,7 +105,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Kedar Bulusu',
     role: 'Developer',
-    majorMinor: 'Add your major and minor here',
+    majorMinor: 'Computer Engineering',
     imageAlt: 'Kedar Avatar',
     profilePic: '/images/logo.png',
   },
